@@ -3,7 +3,7 @@ package fr.istv.covivre.covivre.controller;
 import fr.istv.covivre.covivre.controller.dto.CreateNumberIdentifierDto;
 import fr.istv.covivre.covivre.controller.dto.CreateTemporaryTokenDto;
 import fr.istv.covivre.covivre.model.NumberIdentifier;
-import fr.istv.covivre.covivre.model.TemporaryToken;
+import fr.istv.covivre.covivre.model.TemporaryTokenEncrypted;
 import fr.istv.covivre.covivre.repository.NumberIdentifierRepository;
 import fr.istv.covivre.covivre.service.RsaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +49,11 @@ public class UUIDController {
      * @param input Take the uuid of the smartphone
      * @return TemporaryToken
      * Temporary token is sent to people met and store in their smartphone
-     * Temporary token is crypted using RSA.
+     * Temporary token is encrypted using RSA.
      * @throws Exception
      */
     @PostMapping("temporary-token")
-    public TemporaryToken getTemporaryToken(@RequestBody CreateTemporaryTokenDto input) throws Exception {
+    public TemporaryTokenEncrypted getTemporaryToken(@RequestBody CreateTemporaryTokenDto input) throws Exception {
         final int ONE_MINUTE_IN_MILLIS = 60000;
         final int NUMBER_OF_MINUTES = 20;
 
@@ -61,12 +61,12 @@ public class UUIDController {
         Calendar calendar = Calendar.getInstance();
 
         String toEncrypt =
-                input.getUuid() + // uuid of phone
+                input.getUuid() + ";" + // uuid of phone
                 sdf.format(calendar.getTime()) + ";" + // date of the day
                 sdf.format(new Date(calendar.getTimeInMillis() + (NUMBER_OF_MINUTES * ONE_MINUTE_IN_MILLIS)))  + ";" + // date of the day + 20 minutes
                 rsaService.getIV(); // initialisation vector
 
-        return TemporaryToken.builder().token(this.rsaService.encrypt(toEncrypt)).build();
+        return TemporaryTokenEncrypted.builder().token(this.rsaService.encrypt(toEncrypt)).build();
     }
 
 }

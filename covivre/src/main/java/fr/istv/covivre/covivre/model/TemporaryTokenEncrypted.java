@@ -7,6 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TemporaryToken {
-    private String tokenId;
+public class TemporaryTokenEncrypted {
+    private String token;
 }
