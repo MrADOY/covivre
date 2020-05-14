@@ -8,20 +8,20 @@ const url = '';
   providedIn: 'root'
 })
 export class OneSignalService {
-    oneSignalInit: any;; // to check if OneSignal is already initialized. 
+    oneSignalInit: any; // to check if OneSignal is already initialized.
     oneSignalId: any; // store OneSignalId in localStorage
     userSession: any; // User Session management token
 
     constructor() {
         console.log('OneSignal Service Init', this.oneSignalInit);
     }
-    
+
     // Call this method to start the onesignal process.
-    public init() {
+    public init(externalID: string) {
         this.oneSignalInit ? console.log('Already Initialized') : this.addScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js', (callback) => {
             console.log('OneSignal Script Loaded');
-            this.initOneSignal();
-        })
+            this.initOneSignal(externalID);
+        });
     }
 
     addScript(fileSrc, callback) {
@@ -33,7 +33,7 @@ export class OneSignalService {
         head.appendChild(script);
     }
 
-    initOneSignal() {
+    initOneSignal(externalID: string) {
         OneSignal = window['OneSignal'] || [];
         OneSignal.sendTag('user_id', 'aaaaa', (tagsSent) => {
             // Callback called when tags have finished sending
@@ -48,6 +48,9 @@ export class OneSignalService {
                 enable: false,
             },
         }]);
+
+        OneSignal.setExternalUserId(externalID);
+
         console.log('OneSignal Initialized');
         this.checkIfSubscribed();
     }

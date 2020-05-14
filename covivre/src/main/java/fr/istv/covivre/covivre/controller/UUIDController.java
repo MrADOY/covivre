@@ -1,16 +1,12 @@
 package fr.istv.covivre.covivre.controller;
 
-import fr.istv.covivre.covivre.controller.dto.CreateNumberIdentifierDto;
 import fr.istv.covivre.covivre.controller.dto.CreateTemporaryTokenDto;
 import fr.istv.covivre.covivre.model.NumberIdentifier;
 import fr.istv.covivre.covivre.model.TemporaryTokenEncrypted;
 import fr.istv.covivre.covivre.repository.NumberIdentifierRepository;
 import fr.istv.covivre.covivre.service.RsaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,16 +27,15 @@ public class UUIDController {
 
     /**
      *
-     * @param input containing phone number
      * @return NumberIdentifier
      * NumberIdentifier contains unique 'uuid' to identify phone number, it will be using later
      * for temporary token.
      */
-    @PostMapping
-    public NumberIdentifier getNumberIdentifier(@RequestBody CreateNumberIdentifierDto input) {
+    @GetMapping
+    public NumberIdentifier getNumberIdentifier() {
         NumberIdentifier toSave = NumberIdentifier.builder()
                 .uuid(UUID.randomUUID().toString())
-                .phoneNumber(input.getPhoneNumber()).build();
+                .build();
         repository.save(toSave);
         return toSave;
     }

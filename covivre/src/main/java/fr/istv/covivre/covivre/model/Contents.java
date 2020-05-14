@@ -1,4 +1,12 @@
 package fr.istv.covivre.covivre.model;
 
-public class Contents {
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Contents{
+    private String en;
 }

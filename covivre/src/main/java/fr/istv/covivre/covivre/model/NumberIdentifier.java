@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -16,6 +15,4 @@ import javax.validation.constraints.Pattern;
 public class NumberIdentifier {
     @Id
     private String uuid;
-    @Pattern(regexp="(^$|[0-9]{10})")
-    private String phoneNumber;
 }
