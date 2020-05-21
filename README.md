@@ -11,4 +11,6 @@ npm start
 cd covivre
 mvn spring-boot:run
 
+# demo
 
+<img src="rapport/demo.gif" alt="Liste repas" width="1280" height="720" />
